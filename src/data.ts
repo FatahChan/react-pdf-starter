@@ -14,7 +14,7 @@ const data: ResumeDate = {
           organization: "Instgram",
           positions: [
             {
-              title: "Product Manage",
+              title: "Product Manager",
               team: "Core Platform Team",
               location: "San Francisco, CA",
               present: true,
