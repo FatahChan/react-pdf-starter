@@ -12,6 +12,4 @@ I use bun, but you can use what ever package manager you want
 
 # Notes
 
-I used Jetbrains mono font, but there is bug with react-pdf, bug already filed [here](https://github.com/wojtekmaj/react-pdf/issues/1761)
-
 I use [react-pdf-tailwind](https://www.npmjs.com/package/react-pdf-tailwind) to style
