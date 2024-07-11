@@ -1,5 +1,4 @@
 import { Page, View, Document, Text, Link } from "@react-pdf/renderer";
-import "./utils/registerFonts";
 import data, {
   type Education,
   type Experience,
@@ -7,7 +6,6 @@ import data, {
   SubHeading,
 } from "./data";
 import tw from "./utils/tw";
-import React from "react";
 
 const MainDocument = () => (
   <Document>
@@ -29,7 +27,7 @@ const Heading = ({ name }: { name: string }) => {
   );
 };
 const SubHeadings = ({ subHeadings }: { subHeadings: SubHeading[] }) => {
-  const getSubeading = (subHeading: SubHeading) => {
+  const getSubheading = (subHeading: SubHeading) => {
     switch (subHeading.type) {
       case "email":
         return (
@@ -61,7 +59,12 @@ const SubHeadings = ({ subHeadings }: { subHeadings: SubHeading[] }) => {
   };
   return (
     <View style={tw("flex flex-row justify-center text-sm gap-2")}>
-      {subHeadings.map((subHeading) => getSubeading(subHeading))}
+      {subHeadings.map((subHeading, index) => (
+        <>
+          {getSubheading(subHeading)}{" "}
+          {index !== subHeadings.length - 1 ? " | " : null}
+        </>
+      ))}
     </View>
   );
 };
@@ -109,7 +112,7 @@ const Experience = ({ experience }: { experience: Experience }) => {
     <View>
       <Text
         style={tw(
-          "flex flex-row justify-between items-start font-bold text-lg leading-none"
+          "flex flex-row justify-between items-start font-bold text-lg leading-none mb-1"
         )}
       >
         {experience.organization}
@@ -124,10 +127,24 @@ const Experience = ({ experience }: { experience: Experience }) => {
             <View style={tw("flex flex-col items-end")}>
               <Text style={tw("text-sm")}>{position.location}</Text>
               <View style={tw("flex flex-row text-xs justify-start")}>
-                <Text>{position.startDate.getFullYear()} - </Text>
+                <Text>
+                  {position.dateGranulation === "month"
+                    ? position.startDate.toLocaleString("default", {
+                        month: "long",
+                      })
+                    : null}{" "}
+                  {position.startDate.getFullYear()} -{" "}
+                </Text>
                 {position.present ? <Text>Present</Text> : null}
                 {!position.present ? (
-                  <Text>{position.endDate.getFullYear()}</Text>
+                  <Text>
+                    {position.dateGranulation === "month"
+                      ? position.endDate.toLocaleString("default", {
+                          month: "long",
+                        })
+                      : null}{" "}
+                    {position.endDate.getFullYear()}
+                  </Text>
                 ) : null}
               </View>
             </View>
@@ -169,7 +186,11 @@ const Education = ({ education }: { education: Education }) => {
             <View style={tw("flex flex-col items-end")}>
               <Text style={tw("text-sm")}>{degree.location}</Text>
               <View style={tw("flex flex-row text-xs justify-start")}>
-                <Text>Graduation: {degree.graduationDate.getFullYear()}</Text>
+                {degree.graduationDate ? (
+                  <Text>
+                    Graduation: {degree.graduationDate?.getFullYear()}
+                  </Text>
+                ) : null}
               </View>
             </View>
           </View>
@@ -192,13 +213,11 @@ const Education = ({ education }: { education: Education }) => {
 const Skills = ({ skills }: { skills: string[] }) => {
   return (
     <View>
-      <Text style={tw("text-sm")}>
-        {skills.map((skill, index) => (
-          <React.Fragment key={skill}>
-            {skill}. {index === skills.length - 1 ? null : "| "}
-          </React.Fragment>
-        ))}
-      </Text>
+      {skills.map((skill) => (
+        <Text style={tw("text-sm")} key={skill}>
+          {skill}
+        </Text>
+      ))}
     </View>
   );
 };

@@ -1,4 +1,4 @@
-const data: ResumeDate = {
+const data: ResumeData = {
   name: "Kissa D. Nhuhts",
   subHeadings: [
     { type: "location", location: "San Francisco, CA" },
@@ -117,7 +117,6 @@ const data: ResumeDate = {
     },
   ],
 };
-
 export type EmailSubHeading = {
   type: "email";
   email: string;
@@ -153,9 +152,10 @@ export type Experience = {
 export type Position = {
   title: string;
   team?: string;
-  location: string;
+  location?: string;
   startDate: Date;
   points: string[];
+  dateGranulation?: "month" | "year";
 };
 
 export type PastPosition = Position & {
@@ -167,7 +167,7 @@ export type PresentPosition = Position & {
   present: true;
 };
 
-export type ExperineceSection = {
+export type ExperienceSection = {
   type: "experience";
   data: Experience[];
 };
@@ -178,8 +178,8 @@ export type Education = {
 
 export type Degree = {
   degree: string;
-  location: string;
-  graduationDate: Date;
+  location?: string;
+  graduationDate?: Date;
   GPA: number;
   present?: boolean;
   points?: string[];
@@ -193,11 +193,10 @@ export type SkillsSection = {
   type: "skills";
   data: string[];
 };
-export type Section = ExperineceSection | EducationSection | SkillsSection;
-export type ResumeDate = {
+export type Section = ExperienceSection | EducationSection | SkillsSection;
+export type ResumeData = {
   name: string;
   subHeadings: SubHeading[];
   sections: Section[];
 };
-
 export default data;
